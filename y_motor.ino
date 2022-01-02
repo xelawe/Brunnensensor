@@ -4,6 +4,11 @@ void motor_start_all() {
   gv_motor_run = true;
 }
 
+void motor_start_pumpe() {
+  Pumpe.setmotor(_CW, 100);
+  gv_motor_run = true;
+}
+
 void motor_stop_all() {
   motor_stop_pumpe();
   Ventil.setmotor(_STOP);
