@@ -24,7 +24,7 @@ void pub_sens() {
   if (!gv_error) {
     brunnen["Hoehe"] = (int)(hoehe);
     brunnen["Fuellstand"] = (int)(fuellstand);
-    brunnen["Voluen"] = (int)(volumen);
+    brunnen["Volumen"] = (int)(volumen);
     brunnen["Status"] = "OK";
   } else {
     brunnen["Status"] = "ERROR";
