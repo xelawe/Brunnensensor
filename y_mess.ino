@@ -17,8 +17,12 @@ void messablauf() {
 
     // Umrechnung Pa in mmH2O
     wassersaeule = (messDruck - atmDruck) * 10197 / 100000;
-    // Korrektur um Druck durch Schlauchlänge
-    wassersaeule = wassersaeule - gv_wassersaeule_kalib;
+
+
+    if (gv_kalib_done) {
+      // Korrektur um Druck durch Schlauchlänge
+      wassersaeule = wassersaeule - gv_wassersaeule_kalib;
+    }
     if (wassersaeule < 0)
       wassersaeule = 0;
     //Serial.print("Wassersäule: "); Serial.println(wassersaeule);
@@ -47,13 +51,13 @@ void messablauf() {
       gv_error = false;
       vergleichswert = messDruck;
 
-      if (gv_kalib_done) {
-        motor_start_all( );
-      } else {
-        // Bei Kalibrierung: Ventil offen lassen
-        //gv_wassersaeule_kalib = 0;
-        motor_start_pumpe();
-      }
+      //     if (gv_kalib_done) {
+      motor_start_all( );
+      //      } else {
+      // Bei Kalibrierung: Ventil offen lassen
+      //gv_wassersaeule_kalib = 0;
+      //    motor_start_pumpe();
+      //    }
 
       messung = millis() + 2000;
       messSchritt = 2;
@@ -92,10 +96,9 @@ void messablauf() {
           Serial.println();
         } else {
           // Kalibrireungswert für wassersaeule  speichern
-          gv_wassersaeule_kalib = wassersaeule + gv_wassersaeule_kalib;
+          gv_wassersaeule_kalib = wassersaeule;// + gv_wassersaeule_kalib;
           Serial.print("Wassersäule Kalib: "); Serial.println(gv_wassersaeule_kalib);
         }
-        messung = millis() + 2000;
         messSchritt = 4;
       }
       break;
@@ -104,14 +107,10 @@ void messablauf() {
       motor_stop_all();
       if (gv_kalib_done) {
         pub_sens();
-        messSchritt = 0;
       } else {
-        // Nach der Kalibreirung mit der eigentlichen M1ssung beginnen
-        if (messung < millis()) {
-          gv_kalib_done = true;
-          messSchritt = 1;
-        }
+        gv_kalib_done = true;
       }
+      messSchritt = 0;
       break;
     case 5:  // OTA Aktiv - Messung verhindern
       break;

@@ -1,8 +1,10 @@
 void init_pressure() {
 
+Serial.println();
   if (! mpr.begin()) {
     gv_mprls_ok = false;
     Serial.println("----- !!! ---- Failed to communicate with MPRLS sensor, check wiring?");
+    Serial.println();
     //    while (1) {
     //      delay(10);
     //    }
@@ -27,7 +29,7 @@ void check_pressure(boolean iv_print) {
 
 
 
-  if (iv_print) {
+  if (iv_print || (messSchritt != 0)) {
     Serial.print("Pressure (Pa): "); Serial.println(pressure_Pa);
     Serial.print("messdruck: "); Serial.println(messDruck);
   }

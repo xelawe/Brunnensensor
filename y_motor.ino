@@ -1,6 +1,8 @@
 void motor_start_all() {
-  Pumpe.setmotor(_CW, 100);
+
   Ventil.setmotor(_CW, 100);
+  delay(200);
+  Pumpe.setmotor(_CW, 100);
   gv_motor_run = true;
 }
 

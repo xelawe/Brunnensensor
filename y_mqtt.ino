@@ -18,6 +18,16 @@ void pub_sens() {
   // Add values in the document
   //
 
+  // Add the "MPRLS"
+  JsonObject mprls = jsondoc.createNestedObject("MPRLS");
+
+  if (gv_mprls_ok) {
+    mprls["atm"] = (int)(atmDruck);
+    mprls["Status"] = "OK";
+  } else {
+    mprls["Status"] = "ERROR";
+  }
+
   // Add the "Brunnen"
   JsonObject brunnen = jsondoc.createNestedObject("Brunnen");
 
